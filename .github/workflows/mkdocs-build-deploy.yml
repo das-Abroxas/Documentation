@@ -34,10 +34,8 @@ jobs:
 
       - name: Deploy docs
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: Documentation/Documentation/mkdocs.yml
           
 #      - name: Deploy mkdocs site to gh_pages 
 #        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
