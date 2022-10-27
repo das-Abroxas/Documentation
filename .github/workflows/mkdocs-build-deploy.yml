@@ -9,9 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: pip install mkdocs-material 
-      - run: pip install mkdocs-glightbox
-      - run: mkdocs gh-deploy --force --clean -m "Automatic site deployment"
+          
+      - name: Configuration before deploy
+        run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+    
+      - name: Update pip
+        run: pip install --upgrade pip
+        
+      - name: Install mkdocs-material
+        run: pip install mkdocs-material 
+        
+      - name: Install mkdocs-glightbox
+        run: pip install mkdocs-glightbox
+        
+      - name: Deploy mkdocs site to gh_pages 
+        run: mkdocs gh-deploy --clean -m "Automatic site deployment"
