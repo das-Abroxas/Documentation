@@ -22,8 +22,8 @@ jobs:
       #- name: Install mkdocs-material
       #  run: pip install mkdocs-material 
         
-      #- name: Install mkdocs-glightbox
-      #  run: pip install mkdocs-glightbox
+      - name: Install mkdocs-glightbox
+        run: pip install mkdocs-glightbox
 
       - name: Get current date
         id: date
@@ -38,7 +38,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONFIG_FILE: Documentation/Documentation/mkdocs.yml
-          EXTRA_PACKAGES: mkdocs-glightbox
           
 #      - name: Deploy mkdocs site to gh_pages 
 #        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
