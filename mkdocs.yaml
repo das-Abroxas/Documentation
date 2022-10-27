@@ -1,0 +1,43 @@
+site_name: Aruna Object Storage Documentation
+site_url: https://das-Abroxas.github.io/GitHub-Pages-Test
+
+nav:
+  - Home: index.md
+  - 'Get Started':
+    - 'Overview': get_started/get_started.md
+    - 'Get Storage Access': get_started/basic_usage/01_Get-Storage-Access.md
+    - 'Authorization/Tokens': get_started/basic_usage/02_How-To-Auth-Tokens.md
+  - 'Data Structure':
+    - 'Internal Data Structure': internal_data_structure/internal_data_structure.md
+    - 'Database ERD': internal_data_structure/database_erd.md
+  - 'Generic Playbooks':
+      - 'Genomic Data': generic_playbooks/genomic_data.md
+      - 'Sensor Data': generic_playbooks/sensor_data.md
+      - 'Citizen Science': generic_playbooks/citizen_science.md
+  - 'Deployment': deployment/instance_deployment.md
+  - About: about.md
+
+theme:
+  name: material
+  logo: assets/aruna.png
+  favicon: assets/logo.png
+  features:
+    - navigation.tabs
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - glightbox
+  - search
