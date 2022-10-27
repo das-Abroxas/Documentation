@@ -28,4 +28,4 @@ jobs:
         run: pip install mkdocs-glightbox
         
       - name: Deploy mkdocs site to gh_pages 
-        run: mkdocs gh-deploy --clean -m "Automatic site deployment"
+        run: mkdocs gh-deploy --force --clean -m "Automatic site deployment"
