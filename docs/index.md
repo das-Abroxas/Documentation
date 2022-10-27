@@ -7,16 +7,6 @@ This documentation includes theoretical concepts, the internal data structure, t
 Deeper technical documentation can be found in the implementation repositories for the [API](#api), [Server](#server) or [CLI](#cliapi-client).
 Details on the individual structures can be found in the API documentation and/or the [Internal data structure](get_started/internal_data_structure) part of this repository.
 
-## Repository Content Overview
-
-* Theoretical concepts:
-    * [Authorization](concepts/authz)
-    * [Multi-Cloud](concepts/multicloud)
-    * [Storage](concepts/storage)
-* [Internal data structure](internal_data_structure/internal_data_structure.md)
-* [Basic usage](get_started/basic_usage/01_Get-Storage-Access.md)
-* [Generic use case playbooks](generic_playbooks/sensor_data.md)
-
 ## Design overview
 
 <picture>

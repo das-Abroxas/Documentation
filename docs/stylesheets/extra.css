@@ -1,5 +1,6 @@
-.wy-nav-content {
-  max-width: 95%;
+:root > * {
+  --md-primary-fg-color: #165a97;
+  --md-accent-fg-color: eaf7ff;
 }
 
 .md-grid {
