@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://das-Abroxas.github.io/GitHub-Pages-Test/0.6.0/get_started/basic_usage/02_How-To-Auth-Tokens/" rel="canonical"/>
+<link href="../../../assets/logo.png" rel="icon"/>
+<meta content="mkdocs-1.4.1, mkdocs-material-8.5.10" name="generator"/>
+<title>Authorization/Tokens - Aruna Object Storage Documentation</title>
+<link href="../../../assets/stylesheets/main.472b142f.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.08040f6c.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gdesc-inner { font-size: 0.75rem; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            
+                .gscrollbar-fixer { padding-right: 15px; }
+                </style><script src="../../../assets/javascripts/glightbox.min.js"></script></head>
+<body data-md-color-accent="None" data-md-color-primary="None" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#how-to-deal-with-tokens-and-permissions">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<div data-md-component="outdated" hidden="">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="Aruna Object Storage Documentation" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Aruna Object Storage Documentation">
+<img alt="logo" src="../../../assets/aruna.png"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Aruna Object Storage Documentation
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Authorization/Tokens
+            
+          </span>
+</div>
+</div>
+</div>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Tabs" class="md-tabs" data-md-component="tabs">
+<div class="md-tabs__inner md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../..">
+      Home
+    </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link md-tabs__link--active" href="../../get_started/">
+        Get Started
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../internal_data_structure/internal_data_structure/">
+        Data Structure
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../generic_playbooks/genomic_data/">
+        Generic Playbooks
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../../deployment/instance_deployment/">
+      Deployment
+    </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Aruna Object Storage Documentation" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Aruna Object Storage Documentation">
+<img alt="logo" src="../../../assets/aruna.png"/>
+</a>
+    Aruna Object Storage Documentation
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+        Home
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2">
+          Get Started
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Get Started" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+          Get Started
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../get_started/">
+        Overview
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../01_Get-Storage-Access/">
+        Get Storage Access
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          Authorization/Tokens
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+        Authorization/Tokens
+      </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#introduction">
+    Introduction
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generate-api-token">
+    Generate API token
+  </a>
+<nav aria-label="Generate API token" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#available-token-permissions">
+    Available token permissions:
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#available-api-token-scopes">
+    Available API token scopes:
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#add-users-to-project">
+    Add users to Project
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#edit-project-user-permission">
+    Edit Project user permission
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#remove-project-user">
+    Remove Project user
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generate-api-tokens">
+    Generate API Tokens
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get-api-tokens">
+    Get API token(s)
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#revoke-tokens">
+    Revoke token(s)
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3">
+          Data Structure
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Data Structure" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+          Data Structure
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../internal_data_structure/internal_data_structure/">
+        Internal Data Structure
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../internal_data_structure/database_erd/">
+        Database ERD
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4">
+          Generic Playbooks
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Generic Playbooks" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+          Generic Playbooks
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../generic_playbooks/genomic_data/">
+        Genomic Data
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../generic_playbooks/sensor_data/">
+        Sensor Data
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../generic_playbooks/citizen_science/">
+        Citizen Science
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../deployment/instance_deployment/">
+        Deployment
+      </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="how-to-deal-with-tokens-and-permissions">How to deal with tokens and permissions</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The only actions that can be executed with your OIDC token are the user registration, fetching user info and API token creation/deletion.</p>
+<p>For every action afterwards inside the AOS the user needs a generated API token with sufficient permissions.
+Permissions can be granted either through scoped API tokens for projects or collections themselves or through user specific permissions which will be enforced by a global/personal token.</p>
+<h2 id="generate-api-token">Generate API token</h2>
+<p>An API token can be created with different scopes and/or different permissions.</p>
+<h3 id="available-token-permissions">Available token permissions:</h3>
+<ul>
+<li><code>NONE</code> ("PERMISSION_NONE"): No permissions granted</li>
+<li><code>READ</code> ("PERMISSION_READ"): Read only access</li>
+<li><code>APPEND</code> ("PERMISSION_APPEND"): Can create new resources but cannot modify existing</li>
+<li><code>MODIFY</code> ("PERMISSION_MODIFY"): Can create new resources and modify existing</li>
+<li><code>ADMIN</code> ("PERMISSION_ADMIN"): Can create new resources, modify existing and additionally delete</li>
+</ul>
+<p>So when we talk about minimum requirements for authorization, we get the following order:
+<code>ADMIN &gt; MODIFY &gt; APPEND &gt; READ</code></p>
+<h3 id="available-api-token-scopes">Available API token scopes:</h3>
+<ul>
+<li><strong>Global/Personal</strong>:</li>
+</ul>
+<p>The fields <code>projectId</code> and <code>collectionId</code> are empty on creation.
+This token is valid with nearly every request and inherits the permissions which are set user-specific on projects. </p>
+<p>For example, when a user is added to a project with READ permission, this token "inherits and enforces" the user's READ permission with every request regarding the project or its resources.</p>
+<ul>
+<li><strong>Project</strong>: </li>
+</ul>
+<p>The field <code>projectId</code> is filled and the field <code>collectionId</code> is empty.
+This token is valid for the specific Project and all the resources which are associated with it.</p>
+<p>These tokens can be used to give general access to a Project and all resources registered under it, however, should not be distributed carelessly.</p>
+<ul>
+<li><strong>Collection</strong>: </li>
+</ul>
+<p>The field <code>collectionId</code> is filled and the field <code>projectId</code> is empty.
+This token is valid only for the specific Collection and its containing Objects/ObjectGroups. </p>
+<p>These tokens can be used to give users access to a more specific selection of Collections.</p>
+<h2 id="add-users-to-project">Add users to Project</h2>
+<p>Users can be granted specific permissions for projects, which are inherited and enforced by their global/personal tokens. 
+This makes it easy to add users to projects without them having to create an additional token per project or even collection. 
+It also makes it easy to restrict or extend a user's permissions for a project without having to revoke, re-generate and/or re-distribute tokens.</p>
+<p>This request needs at least ADMIN permissions on the specific Project.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Bash</label><label for="__tabbed_1_2">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Native JSON request to add user with admin permissions to a project</span>
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>curl -d <span class="s1">'</span>
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="s1">  {</span>
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="s1">    "userPermission": {</span>
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="s1">      "userId": "&lt;user-id&gt;",</span>
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="s1">      "projectId": "&lt;project-id&gt;",</span>
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="s1">      "permission": "PERMISSION_ADMIN"</span>
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="s1">    }</span>
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="s1">  }'</span> <span class="se">\</span>
+<a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>     -H <span class="s1">'Authorization: Bearer &lt;API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/project/&lt;project-id&gt;/add_user
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Native JSON request to add user with read only permissions to a project</span>
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>curl -d <span class="s1">'</span>
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="s1">  {</span>
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="s1">    "userPermission": {</span>
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="s1">      "userId": "&lt;user-id&gt;",</span>
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="s1">      "projectId": "&lt;project-id&gt;",</span>
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="s1">      "permission": "PERMISSION_READ"</span>
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="s1">    }</span>
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="s1">  }</span>
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="s1">'</span> <span class="se">\</span>
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a>     -H <span class="s1">'Authorization: Bearer &lt;API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/project/&lt;project-id&gt;/add_user
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">// Create tonic/ArunaAPI request to add user with admin permissions to a project</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">add_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AddUserToProjectRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="n">user_permission</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">ProjectPermission</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">        </span><span class="n">user_id</span>: <span class="s">"&lt;user-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">        </span><span class="n">display_name</span>: <span class="s">""</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">        </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">        </span><span class="n">permission</span>: <span class="nc">Permission</span>::<span class="n">Admin</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="p">}),</span><span class="w"></span>
+<a href="#__codelineno-2-10" id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-2-11" id="__codelineno-2-11" name="__codelineno-2-11"></a>
+<a href="#__codelineno-2-12" id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-2-13" id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project_client</span><span class="p">.</span><span class="n">add_user_to_project</span><span class="p">(</span><span class="n">add_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-2-14" id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">                             </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-2-15" id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-2-16" id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-2-17" id="__codelineno-2-17" name="__codelineno-2-17"></a>
+<a href="#__codelineno-2-18" id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-2-19" id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">// Create tonic/ArunaAPI request to add user with read only permissions to a project</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">add_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AddUserToProjectRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="n">user_permission</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">ProjectPermission</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">        </span><span class="n">user_id</span>: <span class="s">"&lt;user-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">        </span><span class="n">display_name</span>: <span class="s">""</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">        </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">        </span><span class="n">permission</span>: <span class="nc">Permission</span>::<span class="n">Read</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="p">}),</span><span class="w"></span>
+<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>
+<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project_client</span><span class="p">.</span><span class="n">add_user_to_project</span><span class="p">(</span><span class="n">add_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">                             </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a>
+<a href="#__codelineno-3-18" id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-3-19" id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+</div>
+</div>
+</input></input></div>
+<h2 id="edit-project-user-permission">Edit Project user permission</h2>
+<p>The assigned permissions to the users can be changed by project administrators afterwards.</p>
+<p>This request needs at least ADMIN permissions on the specific Project.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Bash</label><label for="__tabbed_2_2">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1"># Native JSON request to add user with admin permissions to a project</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>curl -d <span class="s1">'</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="s1">  {</span>
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="s1">    "userPermission": {</span>
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="s1">      "userId": "&lt;user-id&gt;",</span>
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="s1">      "projectId": "&lt;project-id&gt;",</span>
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="s1">      "permission": "PERMISSION_READ"</span>
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="s1">    }</span>
+<a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="s1">  }'</span> <span class="se">\</span>
+<a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a>     -H <span class="s1">'Authorization: Bearer &lt;API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/project/&lt;project-id&gt;/edit_user
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">// Create tonic/ArunaAPI request to set a users permission to read-only for the specific project</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">edit_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EditUserPermissionsForProjectRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">    </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">    </span><span class="n">user_permission</span>: <span class="nb">Some</span><span class="p">(</span><span class="n">ProjectPermission</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">        </span><span class="n">user_id</span>: <span class="s">"&lt;user-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">        </span><span class="n">display_name</span>: <span class="s">""</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">        </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">        </span><span class="n">permission</span>: <span class="nc">Permission</span>::<span class="n">Read</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="p">}),</span><span class="w"></span>
+<a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a>
+<a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project_client</span><span class="p">.</span><span class="n">edit_user_permissions_for_project</span><span class="p">(</span><span class="n">edit_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="w">                             </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-5-15" id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-5-16" id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-5-17" id="__codelineno-5-17" name="__codelineno-5-17"></a>
+<a href="#__codelineno-5-18" id="__codelineno-5-18" name="__codelineno-5-18"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-5-19" id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+</div>
+</div>
+</input></input></div>
+<h2 id="remove-project-user">Remove Project user</h2>
+<p>Users can, of course, also be completely removed from projects again, depriving them of any access with personalized tokens. 
+However, access with project/collection scoped tokens is not restricted with the removal of the user.</p>
+<p>This request needs at least ADMIN permissions on the specific Project.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio"><input id="__tabbed_3_2" name="__tabbed_3" type="radio"><div class="tabbed-labels"><label for="__tabbed_3_1">Bash</label><label for="__tabbed_3_2">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1"># Native JSON request to remove a user from a specific project</span>
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>curl -H <span class="s1">'Authorization: Bearer &lt;API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/project/&lt;project-id&gt;/remove_user?userId<span class="o">=</span>&lt;user-id&gt;
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1">// Create tonic/ArunaAPI request to remove a user from a specific project</span>
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">delete_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RemoveUserFromProjectRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">    </span><span class="n">project_id</span>: <span class="s">"&lt;project-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">    </span><span class="n">user_id</span>: <span class="s">"&lt;user-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a>
+<a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project_client</span><span class="p">.</span><span class="n">remove_user_from_project</span><span class="p">(</span><span class="n">edit_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">                             </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">                             </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">                             </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a>
+<a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+</div>
+</div>
+</input></input></div>
+<h2 id="generate-api-tokens">Generate API Tokens</h2>
+<p>Here are some API examples on generating API tokens with individual scopes and permissions.</p>
+<p><strong>The token secret is only available once in the response and cannot be re-generated!</strong></p>
+<p>Store the received token secret in a secure location for further usage.
+If a token secret is lost or compromised, delete the old token and generate a new one.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio"><input id="__tabbed_4_2" name="__tabbed_4" type="radio"/><div class="tabbed-labels"><label for="__tabbed_4_1">Bash</label><label for="__tabbed_4_2">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1"># Native JSON request to create a global/personal token</span>
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="c1">#  This token inherits the permissions from the projects the user is a member of</span>
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>curl -d <span class="s1">'</span>
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="s1">  {</span>
+<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="s1">    "projectId": "",</span>
+<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="s1">    "collectionId": "",</span>
+<a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="s1">    "name": "MyPersonalToken",</span>
+<a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="s1">    "expiresAt": {</span>
+<a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="s1">      "timestamp": "2023-01-01T00:00:00.000Z"</span>
+<a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="s1">    }</span>
+<a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="s1">  }'</span> <span class="se">\</span>
+<a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a>     -H <span class="s1">'Authorization: Bearer &lt;OIDC-or-API_token'</span> <span class="se">\</span>
+<a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-8-14" id="__codelineno-8-14" name="__codelineno-8-14"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/token
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="c1"># Native JSON request to create a project scoped token with MODIFY permissions</span>
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>curl -d <span class="s1">'</span>
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="s1">  {</span>
+<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="s1">    "projectId": "&lt;project-id&gt;",</span>
+<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="s1">    "collectionId": "",</span>
+<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="s1">    "name": "Project-Modify-Token",</span>
+<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="s1">    "expiresAt": {</span>
+<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="s1">      "timestamp": "2023-01-01T00:00:00.000Z"</span>
+<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="s1">    },</span>
+<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="s1">    "permission": "PERMISSION_MODIFY"</span>
+<a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="s1">  }'</span> <span class="se">\</span>
+<a href="#__codelineno-9-12" id="__codelineno-9-12" name="__codelineno-9-12"></a>     -H <span class="s1">'Authorization: Bearer &lt;OIDC-Or-API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-9-13" id="__codelineno-9-13" name="__codelineno-9-13"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-9-14" id="__codelineno-9-14" name="__codelineno-9-14"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/token
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1"># Native JSON request to create a collection scoped token with READ permissions</span>
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>curl -d <span class="s1">'</span>
+<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="s1">  {</span>
+<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="s1">    "projectId": "",</span>
+<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="s1">    "collectionId": "&lt;collection-id&gt;",</span>
+<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="s1">    "name": "Collection-ReadOnly-Token",</span>
+<a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="s1">    "expiresAt": {</span>
+<a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="s1">      "timestamp": "2023-01-01T00:00:00.000Z"</span>
+<a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="s1">    },</span>
+<a href="#__codelineno-10-10" id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="s1">    "permission": "PERMISSION_READ"</span>
+<a href="#__codelineno-10-11" id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="s1">  }'</span> <span class="se">\</span>
+<a href="#__codelineno-10-12" id="__codelineno-10-12" name="__codelineno-10-12"></a>     -H <span class="s1">'Authorization: Bearer &lt;OIDC-Or-API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-10-13" id="__codelineno-10-13" name="__codelineno-10-13"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-10-14" id="__codelineno-10-14" name="__codelineno-10-14"></a>     -X POST https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/token
+</code></pre></div>
+</div>
+<div class="tabbed-block"></div>
+</div>
+</input></div>
+<p>The "in-line" conversion of a NativeDateTime to a gRPC Timestamp is kind of hacky.
+In any case it is recommended to implement the <code>From&lt;NativeDateTime&gt;</code> or <code>TryFrom&lt;NativeDateTime&gt;</code> trait for the Timestamp Struct.</p>
+<div class="highlight"><pre><span></span><code>```rust
+// Create tonic/ArunaAPI request to create a global/personal API token with expiration
+let expires_at = NaiveDate::from_ymd(2023, 01, 01).and_hms(0, 0, 0);
+let create_request = CreateApiTokenRequest {
+    project_id: "".to_string(), 
+    collection_id: "".to_string(),
+    name: "MyPersonalToken".to_string(),
+    expires_at: Some(ExpiresAt {
+        timestamp: Some(
+            Timestamp::date_time(
+                expires_at.date().year().into(),
+                expires_at.date().month() as u8,
+                expires_at.date().day() as u8,
+                expires_at.time().hour() as u8,
+                expires_at.time().minute() as u8,
+                expires_at.time().second() as u8,
+            ).unwrap(), 
+        ),
+    }),
+    permission: Permission::None as i32,
+};
+
+// Send the request to the AOS instance gRPC gateway
+let response = user_client.create_api_token(create_request)
+                          .await
+                          .unwrap()
+                          .into_inner();
+
+// Do something with the response
+println!("{:#?}", response);
+```
+</code></pre></div>
+<h2 id="get-api-tokens">Get API token(s)</h2>
+<p>API examples to fetch info of a specific token or all tokens of the current user.</p>
+<p><strong>This request does not re-display the generated API token secret.</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio"/><input id="__tabbed_5_2" name="__tabbed_5" type="radio"/><div class="tabbed-labels"><label for="__tabbed_5_1">Bash</label><label for="__tabbed_5_2">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># Native JSON request to get info on a specific API token by its id</span>
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>curl -H <span class="s1">'Authorization: Bearer &lt;OIDC-Or-API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>     -X GET https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/token/<span class="o">{</span>token-id<span class="o">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="c1"># Native JSON request to get info on all tokens associated with the current user</span>
+<a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>curl -H <span class="s1">'Authorization: Bearer &lt;OIDC-Or-API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a>     -X GET https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/tokens
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="c1">// Create tonic/ArunaAPI request to get info on a specific API token by its id</span>
+<a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">get_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetApiTokenRequest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="w">    </span><span class="n">token_id</span>: <span class="s">"&lt;token-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a>
+<a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_client</span><span class="p">.</span><span class="n">get_api_token</span><span class="p">(</span><span class="n">get_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="w">                          </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-14-11" id="__codelineno-14-11" name="__codelineno-14-11"></a>
+<a href="#__codelineno-14-12" id="__codelineno-14-12" name="__codelineno-14-12"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-14-13" id="__codelineno-14-13" name="__codelineno-14-13"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="c1">// Create tonic/ArunaAPI request to get info on all tokens associated with the current user</span>
+<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">get_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetApiTokensRequest</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a>
+<a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_client</span><span class="p">.</span><span class="n">get_api_tokens</span><span class="p">(</span><span class="n">get_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="w">                          </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a><span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-15-9" id="__codelineno-15-9" name="__codelineno-15-9"></a>
+<a href="#__codelineno-15-10" id="__codelineno-15-10" name="__codelineno-15-10"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-15-11" id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="revoke-tokens">Revoke token(s)</h2>
+<p>API examples to revoke/delete a specific API token or all tokens of the current user.</p>
+<p>Only AOS instance administrators can revoke API tokens of other users.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio"/><input id="__tabbed_6_2" name="__tabbed_6" type="radio"/><div class="tabbed-labels"><label for="__tabbed_6_1">Bash</label><label for="__tabbed_6_2">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="c1"># Native JSON request to revoke the specific API token</span>
+<a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>curl -H <span class="s1">'Authorization: Bearer &lt;OIDC-Or-API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a>     -X DELETE https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/token/<span class="o">{</span>token-id<span class="o">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="c1"># Native JSON request to revoke all tokens of the current user</span>
+<a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a>curl -H <span class="s1">'Authorization: Bearer &lt;OIDC-Or-API_TOKEN&gt;'</span> <span class="se">\</span>
+<a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a>     -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+<a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a>     -X DELETE https://&lt;URL-to-AOS-instance-API-gateway&gt;/v1/auth/tokens
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="c1">// Create tonic/ArunaAPI request to revoke the specific API token</span>
+<a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">delete_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DeleteApiTokenRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="w">    </span><span class="n">token_id</span>: <span class="s">"&lt;token-id&gt;"</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-18-4" id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a>
+<a href="#__codelineno-18-6" id="__codelineno-18-6" name="__codelineno-18-6"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-18-7" id="__codelineno-18-7" name="__codelineno-18-7"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_client</span><span class="p">.</span><span class="n">delete_api_token</span><span class="p">(</span><span class="n">delete_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-18-8" id="__codelineno-18-8" name="__codelineno-18-8"></a><span class="w">                          </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-18-9" id="__codelineno-18-9" name="__codelineno-18-9"></a><span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-18-10" id="__codelineno-18-10" name="__codelineno-18-10"></a><span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-18-11" id="__codelineno-18-11" name="__codelineno-18-11"></a>
+<a href="#__codelineno-18-12" id="__codelineno-18-12" name="__codelineno-18-12"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-18-13" id="__codelineno-18-13" name="__codelineno-18-13"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="c1">// Create tonic/ArunaAPI request to to revoke all tokens of the current user</span>
+<a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">delete_request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DeleteApiTokensRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a href="#__codelineno-19-3" id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="w">    </span><span class="n">user_id</span>: <span class="s">""</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"></span>
+<a href="#__codelineno-19-4" id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="p">};</span><span class="w"></span>
+<a href="#__codelineno-19-5" id="__codelineno-19-5" name="__codelineno-19-5"></a>
+<a href="#__codelineno-19-6" id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="c1">// Send the request to the AOS instance gRPC gateway</span>
+<a href="#__codelineno-19-7" id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="kd">let</span><span class="w"> </span><span class="n">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user_client</span><span class="p">.</span><span class="n">delete_api_tokens</span><span class="p">(</span><span class="n">delete_request</span><span class="p">)</span><span class="w"></span>
+<a href="#__codelineno-19-8" id="__codelineno-19-8" name="__codelineno-19-8"></a><span class="w">                          </span><span class="p">.</span><span class="k">await</span><span class="w"></span>
+<a href="#__codelineno-19-9" id="__codelineno-19-9" name="__codelineno-19-9"></a><span class="w">                          </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span><span class="w"></span>
+<a href="#__codelineno-19-10" id="__codelineno-19-10" name="__codelineno-19-10"></a><span class="w">                          </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span><span class="w"></span>
+<a href="#__codelineno-19-11" id="__codelineno-19-11" name="__codelineno-19-11"></a>
+<a href="#__codelineno-19-12" id="__codelineno-19-12" name="__codelineno-19-12"></a><span class="c1">// Do something with the response</span>
+<a href="#__codelineno-19-13" id="__codelineno-19-13" name="__codelineno-19-13"></a><span class="fm">println!</span><span class="p">(</span><span class="s">"{:#?}"</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<nav aria-label="Footer" class="md-footer__inner md-grid">
+<a aria-label="Previous: Get Storage Access" class="md-footer__link md-footer__link--prev" href="../01_Get-Storage-Access/" rel="prev">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</div>
+<div class="md-footer__title">
+<div class="md-ellipsis">
+<span class="md-footer__direction">
+                Previous
+              </span>
+              Get Storage Access
+            </div>
+</div>
+</a>
+<a aria-label="Next: Internal Data Structure" class="md-footer__link md-footer__link--next" href="../../../internal_data_structure/internal_data_structure/" rel="next">
+<div class="md-footer__title">
+<div class="md-ellipsis">
+<span class="md-footer__direction">
+                Next
+              </span>
+              Internal Data Structure
+            </div>
+</div>
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"></path></svg>
+</div>
+</a>
+</nav>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+<script src="../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
+<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom"});})</script></body>
+</html>
