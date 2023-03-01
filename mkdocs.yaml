@@ -1,6 +1,9 @@
 site_name: Aruna Object Storage Documentation
 site_url: https://das-Abroxas.github.io/GitHub-Pages-Test
 
+repo_name: 'ArunaStorage/ArunaAPI'
+repo_url: 'https://github.com/ArunaStorage/ArunaAPI'
+
 nav:
   - 'Home': index.md
   - 'Get Started':
@@ -43,3 +46,11 @@ markdown_extensions:
 plugins:
   - glightbox
   - search
+  - mike:
+      version_selector: true
+      css_dir: stylesheets
+
+extra:
+  version:
+    provider: mike
+    default: latest
