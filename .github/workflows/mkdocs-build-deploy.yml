@@ -2,8 +2,8 @@ name: Site build and deploy on push
 on:
   push:
     branches:
-      - master 
-      - main
+      - 'v*.*' # Always deploy on version branch update
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -25,6 +25,9 @@ jobs:
       - name: Install mkdocs-glightbox
         run: pip install mkdocs-glightbox
 
+      - name: Install mike
+        run: pip install mike
+
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
@@ -32,5 +35,7 @@ jobs:
       - name: Configuration before deploy
         run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
         
-      - name: Deploy mkdocs site to gh_pages 
-        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
+#      - name: Deploy mkdocs site to gh_pages
+#        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
+      - name: Deploy version site to gh_pages with mike
+        run: mike deploy --push ${{ steps.extract_branch.outputs.branch }} --config-file mkdocs.yaml
