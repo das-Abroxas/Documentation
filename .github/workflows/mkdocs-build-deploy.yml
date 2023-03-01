@@ -30,14 +30,15 @@ jobs:
       - name: Install mike
         run: pip install mike
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
+      - name: Configure Git user
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
 
-      - name: Configuration before deploy
-        run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
-        
-#      - name: Deploy mkdocs site to gh_pages
-#        run: mkdocs gh-deploy --verbose --force --clean -m "Automatic site deployment - ${{ steps.date.outputs.date }}"
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Deploy version site to gh_pages with mike
-        run: mike deploy --push ${{ steps.extract_branch.outputs.branch }} --config-file mkdocs.yaml
+        run: mike deploy -p ${{ steps.extract_branch.outputs.branch }} --config-file mkdocs.yaml
