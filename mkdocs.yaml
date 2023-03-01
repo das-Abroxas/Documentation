@@ -24,6 +24,7 @@ theme:
   name: material
   logo: assets/aruna.png
   favicon: assets/logo.png
+  custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.sections  # Sections are included in the navigation on the left.
